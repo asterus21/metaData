@@ -9,8 +9,8 @@ def get_video_duration(video_file: bytes) -> tuple:
     """Returns a number of frames and frames per second for a video file."""
     cap = cv.VideoCapture(video_file)
     frames_per_second = cap.get(cv.CAP_PROP_FPS)
-    frame_count = int(cap.get(cv.CAP_PROP_FRAME_COUNT))
-    return frames_per_second, frame_count
+    frames_count = int(cap.get(cv.CAP_PROP_FRAME_COUNT))
+    return frames_count, frames_per_second
 
 
 def main(folder):
@@ -29,8 +29,8 @@ def main(folder):
             if not file.endswith('.mov'):
                 raise Exception('Error: the file(s) format is not supported. All files must be of the same format, e.g. "video.mov"')
     for file in files:
-        frame_count, frames_per_second = get_video_duration(file)
-        duration = frame_count / frames_per_second      
+        frames_count, frames_per_second = get_video_duration(file)
+        duration = frames_count / frames_per_second      
         data.append(
             ''.join(
                     [ 
