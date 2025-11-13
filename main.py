@@ -15,15 +15,16 @@ def get_video_duration(file_name: str) -> tuple:
 
 
 def main(folder):
-    """Returns metadata for all video files in a folder."""    
+    """Returns metadata for all video files in a folder."""
     try:
-        os.path.exists(PATH)
-        if len(os.listdir(PATH)) == 0:
+        os.path.exists(folder)
+        number_of_files = len(os.listdir(folder))
+        if number_of_files == 0:
             raise Exception("Error: the folder is empty.")
     except FileNotFoundError:
         raise Exception("Error: the folder not found or empty.")
     files = [
-        PATH + os.listdir(PATH)[i] for i in range(len(os.listdir(PATH)))
+        folder + os.listdir(folder)[i] for i in range(number_of_files)
     ]
     for file in files:
             if not file.endswith('.mov'):
@@ -46,8 +47,8 @@ def main(folder):
                     ]
                 )
             )
-    print(data)
-
+    # print(data)
+    # TODO: add Pandas to create a table of files data
     return data
 
 
