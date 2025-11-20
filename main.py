@@ -43,7 +43,7 @@ def main(folder):
     data = []
     for file in files:
         size = str(os.path.getsize(file) // (1024 ** 2))
-        length = get_video_duration(get_frames(folder))
+        length = get_video_duration(get_frames(file))
         data.append(
             ''.join(
                     [
