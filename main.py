@@ -5,13 +5,24 @@ import cv2 as cv
 PATH = r"D:/video/video/"
 
 
-def get_video_duration(file_name: str) -> tuple:
-    """Returns a number of frames and frames per second for a video file."""
+def get_frames(file_name: str) -> float:
+    """Returns a number of frames as the number of frames per second of the video."""
     cap = cv.VideoCapture(file_name)
-    frames_per_second = cap.get(cv.CAP_PROP_FPS)
     frames_count = int(cap.get(cv.CAP_PROP_FRAME_COUNT))
+    frames_per_second = cap.get(cv.CAP_PROP_FPS)
+    frames = frames_count / frames_per_second
 
-    return frames_count, frames_per_second
+    return frames
+
+
+def get_video_duration(duration: float) -> str:
+    """Returns a video duration."""
+    length = ':'.join([
+            str(int(duration / 60)), # minutes
+            str(int(duration % 60))  # seconds
+            ])
+
+    return length
 
 
 def main(folder):
@@ -31,24 +42,22 @@ def main(folder):
                 raise Exception('Error: the file(s) format is not supported. All files must be of the same format, e.g. "video.mov"')
     data = []
     for file in files:
-        frames_count, frames_per_second = get_video_duration(file)
-        duration = frames_count / frames_per_second      
+        size = str(os.path.getsize(file) // (1024 ** 2))
+        length = get_video_duration(get_frames(folder))
         data.append(
             ''.join(
-                    [ 
+                    [
                     file,
                     ', размер: ',
-                    str(os.path.getsize(file) // (1024 ** 2)),
+                    size,
                     ' мб',
                     ', длительность: ',
-                    str(int(duration / 60)), # minutes 
-                    ':',
-                    str(int(duration % 60)), # seconds
+                    length
                     ]
                 )
             )
-    # print(data)
     # TODO: add Pandas to create a table of files data
+    print(data)
     return data
 
 
