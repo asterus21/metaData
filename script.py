@@ -1,5 +1,10 @@
-import pandas
+"""
+The script runs a Python code to get metadata for a list of videos of the PolyAnalyst video course.
+"""
+
+
 import os
+import pandas
 import cv2
 
 
@@ -40,8 +45,9 @@ def get_files_list(folder: str) -> list:
     ]
     for file in files:
         if not file.endswith('.mov'):
-            raise Exception('Error: the file(s) format is not supported. All files must be of the same format, e.g. "video.mov"')
-    
+            raise Exception('Error: the file(s) format is not supported. ' \
+            'All files must be of the same format, e.g. "video.mov"')
+
     return files
 
 
@@ -79,11 +85,11 @@ def main(files: list) -> list:
                     duration
                 ]
             )
-        )    
+        )
     # print(data)
     return data
 
 
-if __name__ == '__main__':    
+if __name__ == '__main__':
     main(get_files_list(PATH))
     # export_data(get_files_list(PATH))
